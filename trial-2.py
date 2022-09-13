@@ -1,5 +1,6 @@
 #import Modules
 
+from fileinput import lineno
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -70,6 +71,16 @@ regression_model = StringVar()
 regression_model.set(regression_models[0])
 classifier_model = StringVar()
 classifier_model.set(classifier_models[0])
+
+
+def matrixDisp(matrix):
+    global logTable, lineNum
+    count = 0
+    for i in matrix:
+        for j in i:
+            logTable.insert((lineNum + count * 0.1), j + "  ")
+        lineNum = lineNum + 1
+
 
 
 ##################################Pre Processing Functions#############################################
@@ -188,7 +199,9 @@ def DT_Regressor(x_train, x_test, y_train, y_test):
 
     logTable.insert(lineNum, "Decision Tree Regressor : " + str(accuracy) + "\n")
     lineNum = lineNum + 1 
-    print("\nConfusion Matrix : \n",confusion_matrix_dtr)
+    logTable.insert(lineNum, "\nConfusion Matrix : \n")
+    lineNum = lineNum + 1 
+    matrixDisp(confusion_matrix_dtr)
 
 
 def RF_Regressor(x_train, x_test, y_train, y_test):
@@ -198,8 +211,11 @@ def RF_Regressor(x_train, x_test, y_train, y_test):
     y_predict_rfr = rfr.predict(x_test)
     confusion_matrix_rfr = confusion_matrix(y_test,y_predict_rfr)
 
-    print("Random Forest Regressor : ",accuracy)
-    print("\nConfusion Matrix : \n",confusion_matrix_rfr)
+    logTable.insert(lineNum, "Random Forest Regressor : " + str(accuracy) + "\n")
+    lineNum = lineNum + 1 
+    logTable.insert(lineNum, "\nConfusion Matrix : \n")
+    lineNum = lineNum + 1 
+    matrixDisp(confusion_matrix_rfr)
 
 
 def KNN_Regressor(x_train, x_test, y_train, y_test):
@@ -209,8 +225,12 @@ def KNN_Regressor(x_train, x_test, y_train, y_test):
     y_predict_knn_reg = knn_reg.predict(x_test)
     confusion_matrix_knn_reg = confusion_matrix(y_test,y_predict_knn_reg)
 
-    print("K-Nearest Neighbour Regressor : ",accuracy)
-    print("\nConfusion Matrix : \n",confusion_matrix_knn_reg)
+    logTable.insert(lineNum, "K-Nearest Neighbour Regressor : " + str(accuracy) + "\n")
+    lineNum = lineNum + 1 
+    logTable.insert(lineNum, "\nConfusion Matrix : \n")
+    lineNum = lineNum + 1 
+    matrixDisp(confusion_matrix_knn_reg)
+    
 
 
 def SVM_Regressor(x_train, x_test, y_train, y_test):
@@ -220,8 +240,11 @@ def SVM_Regressor(x_train, x_test, y_train, y_test):
     y_predict_svm_reg = svm_reg.predict(x_test)
     confusion_matrix_svm_reg = confusion_matrix(y_test,y_predict_svm_reg)
 
-    print("Support Vector Regressor : ",accuracy)
-    print("\nConfusion Matrix : \n",confusion_matrix_svm_reg)
+    logTable.insert(lineNum, "Support Vector Regressor : " + str(accuracy) + "\n")
+    lineNum = lineNum + 1 
+    logTable.insert(lineNum, "\nConfusion Matrix : \n")
+    lineNum = lineNum + 1 
+    matrixDisp(confusion_matrix_svm_reg)
 
 
 #########################################################################################################################################
@@ -247,8 +270,11 @@ def sv_classifier(x_train,x_test,y_train,y_test):
     acc=linear_model.score(x_test,y_test)
     confusion_matrix_svc = confusion_matrix(y_test,predictor)
 
-    print("Accuracy of the model=",acc*100,"%")
-    print("The confusion matrix: \n",confusion_matrix_svc)
+    logTable.insert(lineNum, "Accuracy of the model= " + str(acc * 100) + "%\n")
+    lineNum = lineNum + 1 
+    logTable.insert(lineNum, "\nConfusion Matrix : \n")
+    lineNum = lineNum + 1 
+    matrixDisp(confusion_matrix_svc)
 
 
 
@@ -258,8 +284,11 @@ def knn_classifier(x_train, x_test, y_train, y_test):
     acc=knn_model.score(x_test,y_test)
     confusion_matrix_knn = confusion_matrix(y_test,pred)
 
-    print("Accuracy of the model=",acc*100,"%")
-    print("The confusion matrix: \n",confusion_matrix_knn)
+    logTable.insert(lineNum, "Accuracy of the model= " + str(acc * 100) + "%\n")
+    lineNum = lineNum + 1 
+    logTable.insert(lineNum, "\nConfusion Matrix : \n")
+    lineNum = lineNum + 1 
+    matrixDisp(confusion_matrix_knn)
 
 
 def dtr_classifier(x_train, x_test, y_train, y_test):
@@ -269,19 +298,26 @@ def dtr_classifier(x_train, x_test, y_train, y_test):
     # print(pred_arr)
     acc=model.score(x_test,y_test)
     confusion_matrix_dtrc = confusion_matrix(y_test,pred)
-    print("Decision tree model accuracy=",acc*100)
-    print("The Confusion matrix: \n",confusion_matrix_dtrc)
+
+    logTable.insert(lineNum, "Accuracy of the model= " + str(acc * 100) + "%\n")
+    lineNum = lineNum + 1 
+    logTable.insert(lineNum, "\nConfusion Matrix : \n")
+    lineNum = lineNum + 1 
+    matrixDisp(confusion_matrix_dtrc)
 
 
 def rf_classifier(x_train, x_test, y_train, y_test):
     rfc = RandomForestClassifier()
     rfc.fit(x_train, y_train)
-    accuracy = rfc.score(x_test,y_test)
+    acc = rfc.score(x_test,y_test)
     y_predict_rfc = rfc.predict(x_test)
     confusion_matrix_rfc = confusion_matrix(y_test,y_predict_rfc)
 
-    print("Random Forest Classifier : ",accuracy)
-    print("\nConfusion Matrix : \n",confusion_matrix_rfc)
+    logTable.insert(lineNum, "Accuracy of the model= " + str(acc * 100) + "%\n")
+    lineNum = lineNum + 1 
+    logTable.insert(lineNum, "\nConfusion Matrix : \n")
+    lineNum = lineNum + 1 
+    matrixDisp(confusion_matrix_rfc)
 
 #########################################################################################################################################
 
