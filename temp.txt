@@ -1,0 +1,50 @@
+def displayImages():
+    global images
+    imgWindow = Toplevel(root)
+    imgWindow.title("Image Viewer")
+    imgWindow.geometry("600x600")
+    currImage = Label(imgWindow, image=ImageTk.PhotoImage(Image.open("images/0.png")))
+    currImage.image = ImageTk.PhotoImage(Image.open("images/0.png"))
+    currImage.grid(row=0, column=0, columnspan=3)
+    def forward(image_number):
+        global images
+        global currImage
+        global button_forward
+        global button_back
+        currImage = Label(imgWindow, image=ImageTk.PhotoImage(Image.open("images/1.png")))
+        currImage.image = ImageTk.PhotoImage(Image.open("images/1.png"))
+        button_forward = Button(imgWindow, text=">>", command=lambda: forward(image_number+1))
+        button_back = Button(imgWindow, text="<<", command=lambda: back(image_number-1))
+        if image_number == 5:
+            button_forward = Button(imgWindow, text=">>", state=DISABLED)
+        
+        currImage.grid(row=0, column=0, columnspan=3)
+        button_back.grid(row=1, column=0)
+        button_forward.grid(row=1, column=2)
+
+    def back(image_number):
+        global images
+        global currImage
+        global button_forward
+        global button_back
+        
+        currImage = Label(imgWindow, image=ImageTk.PhotoImage(Image.open("images/2.png")))
+        currImage.image = ImageTk.PhotoImage(Image.open("images/2.png"))
+        button_forward = Button(imgWindow, text=">>", command=lambda: forward(image_number+1))
+        button_back = Button(imgWindow, text="<<", command=lambda: back(image_number-1))
+        
+        if image_number == 1:
+            button_back = Button(imgWindow, text="<<", state=DISABLED)
+            
+        currImage.grid(row=0, column=0, columnspan=3)
+        button_back.grid(row=1, column=0)
+        button_forward.grid(row=1, column=2)
+    
+    button_back = Button(imgWindow, text="<<", command=back, state=DISABLED)
+    button_exit = Button(imgWindow, text="Exit Program", command=imgWindow.destroy)
+    button_forward = Button(imgWindow, text=">>", command=lambda: forward(2))
+
+    button_back.grid(row=1, column=0)
+    button_exit.grid(row=1, column=1)
+    button_forward.grid(row=1, column=2)
+    
