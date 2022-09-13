@@ -1,4 +1,3 @@
-import tkinter
 from tkinter.ttk import *
 from tkinter import *
 from PIL import Image, ImageTk
