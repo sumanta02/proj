@@ -107,6 +107,26 @@ def check_null_drop(data):
     return data
 
 
+def check_null_replace(data):
+    dim = list(data.shape)
+    logTable.insert(lineNum, "Initial no. of rows : " + str(dim[0]) + "\n")
+    lineNum = lineNum + 1
+    null_list = list(data.isnull().sum())
+    null_list_col = list(data.isnull())
+    null_name = []
+    logTable.insert(lineNum, "The Columns having null values : \n")
+    lineNum = lineNum + 1
+    for i in range(len(null_list)):
+        if null_list[i] != 0:
+            null_name.append(null_list_col[i])
+    print(null_name)
+    print("")
+    logTable.insert(lineNum, "Replacing all NaN values with median.\n")
+    lineNum = lineNum + 1
+    for name in null_name:
+        data[name].fillna(data[name].median(),inplace=True)
+    return data
+
 
 def distribution_plot(data):
     global logTable, lineNum
